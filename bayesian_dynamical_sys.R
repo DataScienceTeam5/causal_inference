@@ -26,10 +26,19 @@ data$Country_Id <-match(data$Country, listy)
 data
 panel <- pdata.frame(data, c("Country_Id", "Year"))
 
+## Phase Portrait with Data Trajectories with the following two models:
+phaseportdat(panel, panel$HDI, panel$logProd, seq(0.7, 1, by = 0.02), seq(3.49, 5.25, by = 0.0352),
+             f <- function(t,Y=c()) rbind( 0.0011 * Y[1] * Y[2] - 0.023 / (Y[2] ** 2) + 0.02 / (Y[1] ** 3),0.02 * Y[1] * Y[2] - 8.2 / (Y[2] ** 2) + 30 / (Y[2]** 3)), 1,2,3,4, 10, 11)
+data
+
+phaseportmod(panel, 3, panel$HDI, panel$logProd, seq(0.7, 1, by = 0.02), seq(3.49, 5.25, by = 0.0352),
+             param <- c(0.0011, 0.023, 0.02, 0.02, 8.2, 30),f <- function(t,Y=c()) rbind( 0.0011 * Y[1] * Y[2] - 0.023 / (Y[2] ** 2) + 0.02 / (Y[1] ** 3),0.02 * Y[1] * Y[2] - 8.2 / (Y[2] ** 2) + 30 / (Y[2]** 3)), 1,2,3,4, 10, 11)
+
+panel$HDI
 bdynsys(panel, 2, 6, panel$HDI,  panel$logProd)
 bayfacfig(2, 6,  c(-178.449413855594, -177.11844878525,-177.600786401187, -180.30452263865, -181.393510950107, -182.120064301302)   ,4)
 bayfacfig(2, 6,  c(-794.247693416269, -755.361133634555, -766.493888756317, -756.688246551897,-754.881648217339, -755.111656529972) ,4)
-bayfacfig(2,6, c( -195.030082042787, -171.274163957911, -179.658775980182,-266.47757149958, -187.192069327813, -310.409260899829),4)
+bayfacfig(2,6, c( -310.409260899829,-195.030082042787, -171.274163957911, -179.658775980182,-266.47757149958, -187.192069327813),3)
 
 #plot heatmap 
 mine.heatmap <- ggplot(data = data, mapping = aes(x = data$Productivity,
